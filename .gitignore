@@ -1,0 +1,10 @@
+_pptx_extract/
+_instructions.zip
+*.pptx
+~$*
+__MACOSX/
+.DS_Store
+assets/assets/
+assets/__MACOSX/
+GEX3 - Output.mp4
+Programming #4*
