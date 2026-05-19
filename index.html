@@ -34,9 +34,29 @@
                 <span v-if="errors.fullName" class="text-danger small">{{ errors.fullName }}</span>
               </div>
               <div class="mb-3">
-                <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                <input id="dateOfBirth" v-model="form.dateOfBirth" type="date" lang="en-US"
-                  class="form-control" placeholder="MM/DD/YYYY">
+                <label class="form-label">Date of Birth</label>
+                <div class="row g-2 date-select-row">
+                  <div class="col-4">
+                    <select id="dobMonth" v-model="form.dobMonth" class="form-select" @change="onDobChange">
+                      <option value="">Month</option>
+                      <option v-for="month in englishMonths" :key="month.value" :value="month.value">
+                        {{ month.label }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-4">
+                    <select id="dobDay" v-model="form.dobDay" class="form-select" @change="onDobChange">
+                      <option value="">Day</option>
+                      <option v-for="day in dobDayOptions" :key="day" :value="String(day)">{{ day }}</option>
+                    </select>
+                  </div>
+                  <div class="col-4">
+                    <select id="dobYear" v-model="form.dobYear" class="form-select" @change="onDobChange">
+                      <option value="">Year</option>
+                      <option v-for="year in birthYears" :key="year" :value="String(year)">{{ year }}</option>
+                    </select>
+                  </div>
+                </div>
                 <span v-if="errors.dateOfBirth" class="text-danger small">{{ errors.dateOfBirth }}</span>
               </div>
               <fieldset class="mb-2">
@@ -165,9 +185,23 @@
               </div>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label for="expirationDate" class="form-label">Expiration Date</label>
-                  <input id="expirationDate" v-model="form.expirationDate" type="month" lang="en-US"
-                    class="form-control">
+                  <label class="form-label">Expiration Date</label>
+                  <div class="row g-2 date-select-row">
+                    <div class="col-7">
+                      <select id="expMonth" v-model="form.expMonth" class="form-select" @change="onExpirationChange">
+                        <option value="">Month</option>
+                        <option v-for="month in englishMonths" :key="'exp-' + month.value" :value="month.value">
+                          {{ month.label }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-5">
+                      <select id="expYear" v-model="form.expYear" class="form-select" @change="onExpirationChange">
+                        <option value="">Year</option>
+                        <option v-for="year in expirationYears" :key="year" :value="String(year)">{{ year }}</option>
+                      </select>
+                    </div>
+                  </div>
                   <span v-if="errors.expirationDate" class="text-danger small">{{ errors.expirationDate }}</span>
                 </div>
                 <div class="col-md-6">

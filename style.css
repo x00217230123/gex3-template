@@ -3,8 +3,7 @@
   src: url("assets/fonts/Luna.ttf") format("truetype");
 }
 
-input[type="date"],
-input[type="month"] {
+.date-select-row .form-select {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 

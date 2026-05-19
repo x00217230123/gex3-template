@@ -1,11 +1,46 @@
 const { createApp } = Vue;
 
+const ENGLISH_MONTHS = [
+  { value: "01", label: "January" },
+  { value: "02", label: "February" },
+  { value: "03", label: "March" },
+  { value: "04", label: "April" },
+  { value: "05", label: "May" },
+  { value: "06", label: "June" },
+  { value: "07", label: "July" },
+  { value: "08", label: "August" },
+  { value: "09", label: "September" },
+  { value: "10", label: "October" },
+  { value: "11", label: "November" },
+  { value: "12", label: "December" }
+];
+
+function daysInMonth(month, year) {
+  const m = Number(month);
+  const y = Number(year);
+  if (!m || !y) return 31;
+  return new Date(y, m, 0).getDate();
+}
+
+function buildYearRange(start, end) {
+  const years = [];
+  for (let y = end; y >= start; y -= 1) {
+    years.push(y);
+  }
+  return years;
+}
+
+const currentYear = new Date().getFullYear();
+
 createApp({
   data() {
     return {
       form: {
         fullName: "",
         dateOfBirth: "",
+        dobMonth: "",
+        dobDay: "",
+        dobYear: "",
         gender: "",
         totalVisitors: "",
         totalChildren: "",
@@ -13,8 +48,13 @@ createApp({
         cardholderName: "",
         cardNumber: "",
         expirationDate: "",
+        expMonth: "",
+        expYear: "",
         cvv: ""
       },
+      englishMonths: ENGLISH_MONTHS,
+      birthYears: buildYearRange(1920, currentYear),
+      expirationYears: buildYearRange(currentYear, currentYear + 15),
       errors: {},
       generalError: "",
       places: [],
@@ -35,6 +75,10 @@ createApp({
     cardLastFour() {
       const digits = String(this.form.cardNumber).replace(/\D/g, "");
       return digits.slice(-4) || "----";
+    },
+    dobDayOptions() {
+      const max = daysInMonth(this.form.dobMonth, this.form.dobYear);
+      return Array.from({ length: max }, (_, i) => i + 1);
     }
   },
   mounted() {
@@ -55,6 +99,29 @@ createApp({
         this.places = [];
       } finally {
         this.isLoadingPlaces = false;
+      }
+    },
+    onDobChange() {
+      const max = daysInMonth(this.form.dobMonth, this.form.dobYear);
+      if (this.form.dobDay && Number(this.form.dobDay) > max) {
+        this.form.dobDay = String(max);
+      }
+      this.syncDateOfBirth();
+    },
+    syncDateOfBirth() {
+      const { dobMonth, dobDay, dobYear } = this.form;
+      if (dobMonth && dobDay && dobYear) {
+        this.form.dateOfBirth = `${dobYear}-${dobMonth}-${String(dobDay).padStart(2, "0")}`;
+      } else {
+        this.form.dateOfBirth = "";
+      }
+    },
+    onExpirationChange() {
+      const { expMonth, expYear } = this.form;
+      if (expMonth && expYear) {
+        this.form.expirationDate = `${expYear}-${expMonth}`;
+      } else {
+        this.form.expirationDate = "";
       }
     },
     isPlaceSelected(placeId) {
@@ -98,6 +165,9 @@ createApp({
       this.generalError = "";
     },
     validateForm() {
+      this.syncDateOfBirth();
+      this.onExpirationChange();
+
       let valid = true;
       const nextErrors = {};
 
@@ -105,7 +175,7 @@ createApp({
         nextErrors.fullName = "Full name is required.";
         valid = false;
       }
-      if (!this.form.dateOfBirth) {
+      if (!this.form.dobMonth || !this.form.dobDay || !this.form.dobYear) {
         nextErrors.dateOfBirth = "Date of birth is required.";
         valid = false;
       }
@@ -146,7 +216,7 @@ createApp({
         nextErrors.cardNumber = "Card number is required.";
         valid = false;
       }
-      if (!this.form.expirationDate) {
+      if (!this.form.expMonth || !this.form.expYear) {
         nextErrors.expirationDate = "Expiration date is required.";
         valid = false;
       }
