@@ -3,6 +3,11 @@
   src: url("assets/fonts/Luna.ttf") format("truetype");
 }
 
+input[type="date"],
+input[type="month"] {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

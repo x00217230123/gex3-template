@@ -60,6 +60,31 @@ createApp({
     isPlaceSelected(placeId) {
       return this.selectedPlaces.some((place) => place.id === placeId);
     },
+    formatDateEnglish(isoDate) {
+      if (!isoDate) return "";
+      const parts = isoDate.split("-").map(Number);
+      if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
+        return isoDate;
+      }
+      const [year, month, day] = parts;
+      return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    },
+    formatMonthEnglish(isoMonth) {
+      if (!isoMonth) return "";
+      const parts = isoMonth.split("-").map(Number);
+      if (parts.length !== 2 || parts.some((n) => Number.isNaN(n))) {
+        return isoMonth;
+      }
+      const [year, month] = parts;
+      return new Date(year, month - 1, 1).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long"
+      });
+    },
     togglePlace(place) {
       const index = this.selectedPlaces.findIndex((item) => item.id === place.id);
       if (index >= 0) {

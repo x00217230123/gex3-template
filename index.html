@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,8 @@
               </div>
               <div class="mb-3">
                 <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                <input id="dateOfBirth" v-model="form.dateOfBirth" type="date" class="form-control">
+                <input id="dateOfBirth" v-model="form.dateOfBirth" type="date" lang="en-US"
+                  class="form-control" placeholder="MM/DD/YYYY">
                 <span v-if="errors.dateOfBirth" class="text-danger small">{{ errors.dateOfBirth }}</span>
               </div>
               <fieldset class="mb-2">
@@ -165,7 +166,8 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="expirationDate" class="form-label">Expiration Date</label>
-                  <input id="expirationDate" v-model="form.expirationDate" type="month" class="form-control">
+                  <input id="expirationDate" v-model="form.expirationDate" type="month" lang="en-US"
+                    class="form-control">
                   <span v-if="errors.expirationDate" class="text-danger small">{{ errors.expirationDate }}</span>
                 </div>
                 <div class="col-md-6">
@@ -195,7 +197,7 @@
             <h3 class="h5">Personal Details</h3>
             <ul class="list-unstyled mb-0">
               <li><strong>Full Name:</strong> {{ form.fullName }}</li>
-              <li><strong>Date of Birth:</strong> {{ form.dateOfBirth }}</li>
+              <li><strong>Date of Birth:</strong> {{ formatDateEnglish(form.dateOfBirth) }}</li>
               <li><strong>Gender:</strong> {{ form.gender }}</li>
             </ul>
           </div>
@@ -218,7 +220,7 @@
             <ul class="list-unstyled mb-0">
               <li><strong>Cardholder:</strong> {{ form.cardholderName }}</li>
               <li><strong>Card number:</strong> **** **** **** {{ cardLastFour }}</li>
-              <li><strong>Expiration:</strong> {{ form.expirationDate }}</li>
+              <li><strong>Expiration:</strong> {{ formatMonthEnglish(form.expirationDate) }}</li>
             </ul>
           </div>
         </div>
